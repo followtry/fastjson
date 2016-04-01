@@ -3,7 +3,7 @@
  */
 package xyz.jingzztech.fast;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author jingzz
@@ -19,6 +19,7 @@ public class FastJsonTest {
 		user.setName("xixixi");
 		user.content="sdfsdf";
 		
-		System.out.println(JSONObject.toJSONString(user));
+		Object parse = JSON.parse("['name','hehe']");
+		System.out.println("FastJsonTest.main()"+parse);
 	}
 }

@@ -81,8 +81,10 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         DEFAULT_PARSER_FEATURE = features;
     }
 
+    //by jingzz 默认数据格式化类型
     public static String DEFFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+    //by jingzz 默认生成特征
     public static int    DEFAULT_GENERATE_FEATURE;
 
     static {
@@ -97,14 +99,16 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
     }
     
     public static Object parse(String text) {
+    	System.out.println("JSON.parse()1");
         return parse(text, DEFAULT_PARSER_FEATURE);
     }
 
+    //json字符串解析器
     public static Object parse(String text, int features) {
         if (text == null) {
             return null;
         }
-
+        System.out.println("JSON.parse()2");
         DefaultJSONParser parser = new DefaultJSONParser(text, ParserConfig.getGlobalInstance(), features);
         Object value = parser.parse();
 
@@ -132,6 +136,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         return parse(input, off, len, charsetDecoder, featureValues);
     }
 
+    //byte字节码解析器
     public static Object parse(byte[] input, int off, int len, CharsetDecoder charsetDecoder, int features) {
         charsetDecoder.reset();
 
@@ -378,21 +383,27 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
     }
 
     // ======================
+    //将Object转为json 字符串
     public static String toJSONString(Object object) {
         return toJSONString(object, new SerializerFeature[0]);
     }
 
+    //将Object转为json 字符串
     public static String toJSONString(Object object, SerializerFeature... features) {
+    	//初始化系列化书写器
         SerializeWriter out = new SerializeWriter();
 
         try {
+        	//SerializeWriter为JSONSerializer内的一个属性
             JSONSerializer serializer = new JSONSerializer(out);
             for (com.alibaba.fastjson.serializer.SerializerFeature feature : features) {
                 serializer.config(feature, true);
             }
-
+            int bufferLength = serializer.getWriter().getBufferLength();
+            System.out.println("JSON.toJSONString()1-"+bufferLength);
+            System.out.println("JSON.toJSONString()2"+out);
             serializer.write(object);
-
+            System.out.println("JSON.toJSONString()3"+out);
             return out.toString();
         } finally {
             out.close();

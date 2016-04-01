@@ -1056,7 +1056,7 @@ public class TypeUtils {
     public static List<FieldInfo> computeGetters(Class<?> clazz, Map<String, String> aliasMap, boolean sorted) {
         Map<String, FieldInfo> fieldInfoMap = new LinkedHashMap<String, FieldInfo>();
 
-        //TODO  by 荆忠志 通过getter方法获取属性值
+        //TODO  by jingzz 通过getter方法获取属性值
         for (Method method : clazz.getMethods()) {
             String methodName = method.getName();
             int ordinal = 0, serialzeFeatures = 0;
@@ -1264,7 +1264,7 @@ public class TypeUtils {
         }
 
         
-         //TODO  by 荆忠志 序列化无getter方法但有JSONField注解的属性
+         //TODO  by jingzz 序列化无getter方法但有JSONField注解的属性
         for (Field field : clazz.getFields()) {
             if (Modifier.isStatic(field.getModifiers())) {
                 continue;
@@ -1503,6 +1503,12 @@ public class TypeUtils {
         return clazz.getAnnotation(JSONType.class);
     }
 
+    /**
+     * 检查class是否添加了JSONType注解
+     * @author jingzz （中文注释者）
+     * @param clazz
+     * @return 0值标识无注解
+     */
     public static int getSerializeFeatures(Class<?> clazz) {
         JSONType annotation = clazz.getAnnotation(JSONType.class);
 

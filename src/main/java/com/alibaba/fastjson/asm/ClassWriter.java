@@ -29,6 +29,8 @@
  */
 package com.alibaba.fastjson.asm;
 
+import java.util.Arrays;
+
 /**
  * 
  * @author Eric Bruneton
@@ -718,4 +720,15 @@ public class ClassWriter {
     private void put122(final int b, final int s1, final int s2) {
         pool.put12(b, s1).putShort(s2);
     }
+
+	@Override
+	public String toString() {
+		return "ClassWriter [version=" + version + ", index=" + index + ", pool=" + pool + ", items="
+				+ Arrays.toString(items) + ", threshold=" + threshold + ", key=" + key + ", key2=" + key2 + ", key3="
+				+ key3 + ", typeTable=" + Arrays.toString(typeTable) + ", access=" + access + ", name=" + name
+				+ ", thisName=" + thisName + ", superName=" + superName + ", interfaceCount=" + interfaceCount
+				+ ", interfaces=" + Arrays.toString(interfaces) + ", firstField=" + firstField + ", lastField="
+				+ lastField + ", firstMethod=" + firstMethod + ", lastMethod=" + lastMethod + "]";
+	}
+    
 }

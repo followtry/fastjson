@@ -184,4 +184,11 @@ final class Item {
         }
     }
 
+	@Override
+	public String toString() {
+		return "Item [index=" + index + ", type=" + type + ", intVal=" + intVal + ", longVal=" + longVal + ", strVal1="
+				+ strVal1 + ", strVal2=" + strVal2 + ", strVal3=" + strVal3 + ", hashCode=" + hashCode + ", next="
+				+ next + "]";
+	}
+
 }

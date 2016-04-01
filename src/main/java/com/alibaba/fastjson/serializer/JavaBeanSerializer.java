@@ -63,6 +63,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
     }
 
     public JavaBeanSerializer(Class<?> clazz, Map<String, String> aliasMap){
+    	System.out.println("JavaBeanSerializer.JavaBeanSerializer()");
         this.features = TypeUtils.getSerializeFeatures(clazz);
 
         {
@@ -75,6 +76,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
 
             getters = getterList.toArray(new FieldSerializer[getterList.size()]);
         }
+        System.out.println("JavaBeanSerializer.JavaBeanSerializer()2");
         {
             List<FieldSerializer> getterList = new ArrayList<FieldSerializer>();
             List<FieldInfo> fieldInfoList = TypeUtils.computeGetters(clazz, aliasMap, true);
@@ -91,15 +93,16 @@ public class JavaBeanSerializer implements ObjectSerializer {
         return serializer.isWriteClassName(fieldType, obj);
     }
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features)
-                                                                                                               throws IOException {
+    //TODO  by jingzz JavaBean对象序列化调用方法
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+    	System.out.println("JavaBeanSerializer.write()1"+serializer.getWriter().toString());
         SerializeWriter out = serializer.getWriter();
 
         if (object == null) {
             out.writeNull();
             return;
         }
-
+        //TODO by jingzz 序列化对象
         if (writeReference(serializer, object, features)) {
             return;
         }
@@ -111,8 +114,9 @@ public class JavaBeanSerializer implements ObjectSerializer {
         } else {
             getters = this.getters;
         }
-
+        System.out.println("JavaBeanSerializer.write()2"+out);
         SerialContext parent = serializer.getContext();
+        System.out.println("JavaBeanSerializer.write()3"+out);
         serializer.setContext(parent, object, fieldName, this.features, features);
 
         final boolean writeAsArray = isWriteAsArray(serializer);
@@ -121,12 +125,12 @@ public class JavaBeanSerializer implements ObjectSerializer {
             final char startSeperator = writeAsArray ? '[' : '{';
             final char endSeperator = writeAsArray ? ']' : '}';
             out.append(startSeperator);
-
+            System.out.println("JavaBeanSerializer.write()3"+out);
             if (getters.length > 0 && out.isEnabled(SerializerFeature.PrettyFormat)) {
                 serializer.incrementIndent();
                 serializer.println();
             }
-
+            System.out.println("JavaBeanSerializer.write()4"+out);
             boolean commaFlag = false;
 
             if (isWriteClassName(serializer, object, fieldType, fieldName)) {
@@ -258,17 +262,22 @@ public class JavaBeanSerializer implements ObjectSerializer {
 
     public boolean writeReference(JSONSerializer serializer, Object object, int fieldFeatures) {
         {
+        	System.out.println("JavaBeanSerializer.writeReference()4"+serializer.getWriter().toString());
             SerialContext context = serializer.getContext();
             if (context != null
                 && SerializerFeature.isEnabled(context.getFeatures(), fieldFeatures,
                                                SerializerFeature.DisableCircularReferenceDetect)) {
                 return false;
             }
+            System.out.println("JavaBeanSerializer.writeReference()5"+serializer.getWriter().toString());
         }
 
+        System.out.println("JavaBeanSerializer.writeReference()1"+serializer.getWriter().toString());
         if (!serializer.containsReference(object)) {
+        	System.out.println("JavaBeanSerializer.writeReference()2"+serializer.getWriter().toString());
             return false;
         }
+        System.out.println("JavaBeanSerializer.writeReference()3"+serializer.getWriter().toString());
 
         serializer.writeReference(object);
         return true;
@@ -280,7 +289,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
         if (clazz == Number.class) {
             return new NumberFieldSerializer(fieldInfo);
         }
-
+        
         return new ObjectFieldSerializer(fieldInfo);
     }
 

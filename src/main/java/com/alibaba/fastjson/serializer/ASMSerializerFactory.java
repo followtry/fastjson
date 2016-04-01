@@ -36,6 +36,12 @@ public class ASMSerializerFactory implements Opcodes {
 
     private final AtomicLong seed = new AtomicLong();
 
+    /**
+     * 生成string形式的classname，但是传入的clazz参数没有任何用处
+     * @author jingzz （中文注释者）
+     * @param clazz
+     * @return
+     */
     public String getGenClassName(Class<?> clazz) {
         return "Serializer_" + seed.incrementAndGet();
     }
@@ -119,12 +125,13 @@ public class ASMSerializerFactory implements Opcodes {
     }
 
     public ObjectSerializer createJavaBeanSerializer(Class<?> clazz, Map<String, String> aliasMap) throws Exception {
-        if (clazz.isPrimitive()) {
+    	if (clazz.isPrimitive()) {
             throw new JSONException("unsupportd class " + clazz.getName());
         }
 
         List<FieldInfo> getters = TypeUtils.computeGetters(clazz, aliasMap, false);
-        
+        //TODO  by jingzz 打印信息
+        System.out.println("ASMSerializerFactory.createJavaBeanSerializer()"+getters.toString());
         if (getters.size() > 256) {
             return null;
         }
@@ -136,6 +143,9 @@ public class ASMSerializerFactory implements Opcodes {
         }
 
         String className = getGenClassName(clazz);
+        //TODO  by jingzz 打印信息 
+        System.out.println("ASMSerializerFactory.createJavaBeanSerializer()"+className);
+        
         int beanSerializeFeatures = TypeUtils.getSerializeFeatures(clazz);
 
         ClassWriter cw = new ClassWriter();
@@ -143,9 +153,10 @@ public class ASMSerializerFactory implements Opcodes {
                  new String[] { "com/alibaba/fastjson/serializer/ObjectSerializer" });
 
         for (FieldInfo fieldInfo : getters) {
-            {
+            {//TODO  by jingzz 该构造块的存在与普通的代码块无区别
                 FieldVisitor fw = cw.visitField(ACC_PUBLIC, fieldInfo.getName() + "_asm_fieldPrefix",
                                                 "Ljava/lang/reflect/Type;");
+                //TODO  by jingzz visitEnd方法中无操作
                 fw.visitEnd();
             }
 
@@ -153,7 +164,8 @@ public class ASMSerializerFactory implements Opcodes {
                                             "Ljava/lang/reflect/Type;");
             fw.visitEnd();
         }
-
+        
+        System.out.println("ASMSerializerFactory.createJavaBeanSerializer()3"+cw.toString());
         MethodVisitor mw = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         mw.visitVarInsn(ALOAD, 0);
         mw.visitLdcInsn(com.alibaba.fastjson.asm.Type.getType(getDesc(clazz)));

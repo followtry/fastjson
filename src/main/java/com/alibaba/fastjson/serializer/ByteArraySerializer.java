@@ -27,7 +27,7 @@ public class ByteArraySerializer implements ObjectSerializer {
 
     public final void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
         SerializeWriter out = serializer.getWriter();
-        
+        System.out.println("ByteArraySerializer.write()1"+serializer.getWriter());
         if (object == null) {
             if (out.isEnabled(SerializerFeature.WriteNullListAsEmpty)) {
                 out.write("[]");
@@ -39,5 +39,6 @@ public class ByteArraySerializer implements ObjectSerializer {
         
         byte[] array = (byte[]) object;
         out.writeByteArray(array);
+        System.out.println("ByteArraySerializer.write()2"+out);
     }
 }

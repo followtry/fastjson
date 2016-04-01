@@ -164,6 +164,7 @@ public abstract class JSONLexerBase implements JSONLexer, Closeable {
                     scanFalse();
                     return;
                 case 'n': // new,null
+                	System.out.println("JSONLexerBase.nextToken()7");
                     scanNullOrNew();
                     return;
                 case 'N': // new,null
@@ -347,7 +348,7 @@ public abstract class JSONLexerBase implements JSONLexer, Closeable {
                 next();
                 continue;
             }
-
+            System.out.println("JSONLexerBase.nextToken()6");
             nextToken();
             break;
         }
@@ -2506,7 +2507,7 @@ public abstract class JSONLexerBase implements JSONLexer, Closeable {
             }
             return;
         }
-
+        System.out.println("JSONLexerBase.scanNullOrNew()8");
         if (ch != 'e') {
             throw new JSONException("error parse e");
         }

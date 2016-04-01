@@ -451,6 +451,7 @@ public final class SerializeWriter extends Writer {
             buf[newcount - 2] = '=';
         }
         buf[newcount - 1] = quote;
+        System.out.println("SerializeWriter.writeByteArray()1"+toString());
     }
 
     public void writeFloatAndChar(float value, char c) {

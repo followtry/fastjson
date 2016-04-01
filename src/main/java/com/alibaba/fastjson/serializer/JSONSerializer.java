@@ -366,12 +366,16 @@ public class JSONSerializer {
             out.writeNull();
             return;
         }
-        
+        System.out.println("JSONSerializer.write()1");
         Class<?> clazz = object.getClass();
+        //获取javaBeanSerializer类
         ObjectSerializer writer = getObjectWriter(clazz);
 
         try {
+        	System.out.println("JSONSerializer.write()2"+out);
+        	//此步骤生成json数据
             writer.write(this, object, null, null, 0);
+            System.out.println("JSONSerializer.write()3"+out);
         } catch (IOException e) {
             throw new JSONException(e.getMessage(), e);
         }

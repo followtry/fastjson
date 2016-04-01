@@ -93,6 +93,7 @@ public class SerializeConfig extends IdentityHashMap<Type, ObjectSerializer> {
 
 	public final ObjectSerializer createASMSerializer(Class<?> clazz)
 			throws Exception {
+		System.out.println("SerializeConfig.createASMSerializer()");
 		return asmFactory.createJavaBeanSerializer(clazz, null);
 	}
 	
@@ -131,7 +132,9 @@ public class SerializeConfig extends IdentityHashMap<Type, ObjectSerializer> {
 		
 		if (asm) {
 			try {
+				System.out.println("SerializeConfig.createJavaBeanSerializer()1");
 			    ObjectSerializer asmSerializer = createASMSerializer(clazz);
+			    System.out.println("SerializeConfig.createJavaBeanSerializer()2");
 			    if (asmSerializer != null) {
 			        return asmSerializer;
 			    }
@@ -376,6 +379,7 @@ public class SerializeConfig extends IdentityHashMap<Type, ObjectSerializer> {
                     return superWriter;
                 }
 
+                //by jingzz 此处用if-lese结构还有用吗
                 if (Proxy.isProxyClass(clazz)) {
                     put(clazz, createJavaBeanSerializer(clazz));
                 } else {

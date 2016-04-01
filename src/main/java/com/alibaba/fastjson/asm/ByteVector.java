@@ -29,6 +29,8 @@
  */
 package com.alibaba.fastjson.asm;
 
+import java.util.Arrays;
+
 /**
  * A dynamically extensible vector of bytes. This class is roughly equivalent to a DataOutputStream on top of a
  * ByteArrayOutputStream, but is more efficient.
@@ -220,4 +222,11 @@ public class ByteVector {
         System.arraycopy(data, 0, newData, 0, length);
         data = newData;
     }
+
+	@Override
+	public String toString() {
+		return "ByteVector [data=" + Arrays.toString(data) + ", length=" + length + "]";
+	}
+    
+    
 }

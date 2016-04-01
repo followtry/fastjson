@@ -1021,7 +1021,7 @@ public class DefaultJSONParser extends AbstractJSONParser implements Closeable {
             throw new JSONException("syntax error, expect [, actual " + JSONToken.name(lexer.token()) + ", pos "
                                     + lexer.pos());
         }
-
+        System.out.println("DefaultJSONParser.parseArray()5");
         lexer.nextToken(JSONToken.LITERAL_STRING);
 
         ParseContext context = this.getContext();
@@ -1210,6 +1210,7 @@ public class DefaultJSONParser extends AbstractJSONParser implements Closeable {
     }
 
     public Object parse() {
+    	System.out.println("DefaultJSONParser.parse()3");
         return parse(null);
     }
 
@@ -1224,6 +1225,7 @@ public class DefaultJSONParser extends AbstractJSONParser implements Closeable {
 
     public Object parse(Object fieldName) {
         final JSONLexer lexer = getLexer();
+        System.out.println("DefaultJSONParser.parse()4");
         switch (lexer.token()) {
             case SET:
                 lexer.nextToken();
