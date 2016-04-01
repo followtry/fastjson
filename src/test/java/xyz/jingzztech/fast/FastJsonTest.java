@@ -18,8 +18,9 @@ public class FastJsonTest {
 		user.setId("hehe");
 		user.setName("xixixi");
 		user.content="sdfsdf";
+		user.xixi="hehe";
+		user.set_name("hahah");
+		System.out.println(JSON.toJSONString(user));
 		
-		Object parse = JSON.parse("['name','hehe']");
-		System.out.println("FastJsonTest.main()"+parse);
 	}
 }
